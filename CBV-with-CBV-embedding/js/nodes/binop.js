@@ -48,10 +48,12 @@ class BinOp extends Node {
 					this.delete();
 
 					token.rewriteFlag = RewriteFlag.F_PROMO;
+					token.rewrite = true;
+					return newLink;
 				}
 
 				token.rewrite = true;
-				return newLink;
+				return nextLink;
 			}
 		}
 		token.rewrite = false;
