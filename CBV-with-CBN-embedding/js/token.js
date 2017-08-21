@@ -9,14 +9,6 @@ class MachineToken {
 			this.link.clearFocus();
 		this.link = link;
 		if (this.link != null) {
-			if (this.forward) {
-				this.from = link.from;
-				this.to = link.to;
-			}
-			else {
-				this.from = link.to;
-				this.to = link.from;
-			}
 			this.link.focus("red");
 		}
 	}
@@ -26,8 +18,6 @@ class MachineToken {
 		this.rewrite = false;
 		this.transited = false;
 		
-		this.from = null; // logical from
-		this.to = null; // logical to
 		this.link = null;
 		
 		this.rewriteFlag = RewriteFlag.EMPTY;

@@ -21,7 +21,7 @@ class GoIMachine {
 		// create graph
 		var start = new Start().addToGroup(this.graph.child);
 		var term = this.toGraph(ast, this.graph.child);
-		new Link(start.key, term.prin.key, "n", "s").addToGroup(this.graph.child);
+		this.token.setLink(new Link(start.key, term.prin.key, "n", "s").addToGroup(this.graph.child));
 		this.token.to = start.key;
 	}
 
@@ -162,7 +162,8 @@ class GoIMachine {
 
 		var node;
 		if (!this.token.transited) {
-			node = this.graph.findNodeByKey(this.token.to);
+			var target = this.token.forward ? this.token.link.to : this.token.link.from;
+			node = this.graph.findNodeByKey(target);
 			this.token.rewrite = false;
 			var nextLink = node.transition(this.token, this.token.link);
 			this.printHistory(flag, dataStack, boxStack); 
@@ -179,11 +180,20 @@ class GoIMachine {
 			}
 		}
 		else {
-			node = this.graph.findNodeByKey(this.token.from);
+			var target = this.token.forward ? this.token.link.from : this.token.link.to;
+			node = this.graph.findNodeByKey(target);
 			var nextLink = node.rewrite(this.token, this.token.link);
 			if (!this.token.rewrite) {
-				this.token.transited = false;
-				this.pass(flag, dataStack, boxStack);
+				var nextNode = this.graph.findNodeByKey(this.token.forward ? this.token.link.to : this.token.link.from);
+				nextLink = nextNode.rewrite(this.token, nextLink);
+				if (!this.token.rewrite) {
+					this.token.transited = false;
+					this.pass(flag, dataStack, boxStack);
+				}
+				else {
+					this.token.setLink(nextLink);
+					this.printHistory(flag, dataStack, boxStack);
+				}
 			}
 			else {
 				this.token.setLink(nextLink);
