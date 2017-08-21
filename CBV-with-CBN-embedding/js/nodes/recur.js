@@ -43,7 +43,6 @@ class Recur extends Expo {
 			}
 		}
 
-		token.rewriteFlag = RewriteFlag.EMPTY;
 		token.rewrite = false;
 		return nextLink;
 	}

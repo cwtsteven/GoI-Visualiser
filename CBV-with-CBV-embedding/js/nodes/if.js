@@ -29,6 +29,7 @@ class If extends Node {
 		if (nextLink.from == this.key) {
 			if (token.rewriteFlag == RewriteFlag.F_IF) {
 				token.rewriteFlag == RewriteFlag.EMPTY;
+				
 				var left = this.graph.findNodeByKey(this.findLinksOutOf("w")[0].to);
 				if (left instanceof Const) {
 					var downLink = this.findLinksInto(null)[0];
@@ -38,13 +39,13 @@ class If extends Node {
 					otherLink.changeFrom(weak.key, "n");
 					this.delete();
 					left.delete();
-
-					token.rewrite = true;
-					return nextLink;
 				}
+
+				token.rewrite = true;
+				return nextLink;
 			}
 		}
-		token.rewriteFlag = RewriteFlag.EMPTY;
+
 		token.rewrite = false;
 		return nextLink;
 	}

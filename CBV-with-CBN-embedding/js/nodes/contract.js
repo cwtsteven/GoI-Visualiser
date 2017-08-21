@@ -18,14 +18,13 @@ class Contract extends Expo {
 	rewrite(token, nextLink) {
 		if (nextLink.from == this.key) {
 			if (token.rewriteFlag == RewriteFlag.F_C) {
+				token.rewriteFlag = RewriteFlag.EMPTY;
+
 				if (this.findLinksInto(null).length == 1) {
 					token.boxStack.pop();
 					var inLink = this.findLinksInto(null)[0];
 					nextLink.changeFrom(inLink.from, inLink.fromPort);
 					this.delete();
-					token.rewriteFlag = RewriteFlag.EMPTY;
-					token.rewrite = true;
-					return nextLink;
 				}
 				else if (token.boxStack.length >= 2) {
 					var i = token.boxStack.last();
@@ -36,16 +35,18 @@ class Contract extends Expo {
 							link.changeTo(this.key, "s");
 						}
 						prev.delete();
-						token.rewrite = true;
-						return nextLink;
 					}
+					token.rewriteFlag = RewriteFlag.F_C;
 				}
 				else if (token.boxStack.length == 1) {
 					
 				}
+
+				token.rewrite = true;
+				return nextLink;
 			}
 		}
-		token.rewriteFlag = RewriteFlag.EMPTY;
+		
 		token.rewrite = false;
 		return nextLink;
 	}

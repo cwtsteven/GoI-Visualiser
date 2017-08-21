@@ -44,10 +44,10 @@ class BinOp extends Node {
 					left.delete();
 					right.delete();
 					this.delete();
-
-					token.rewrite = true;
-					return nextLink;
 				}
+				
+				token.rewrite = true;
+				return nextLink;
 			}
 		}
 		token.rewrite = false;

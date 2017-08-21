@@ -42,10 +42,9 @@ class Abs extends Node {
 				
 				this.delete();
 				app.delete();
-				
-				token.rewrite = true;
-				return nextLink;
 			}
+			token.rewrite = true;
+			return nextLink;
 		}
 		token.rewrite = false;
 		return nextLink;

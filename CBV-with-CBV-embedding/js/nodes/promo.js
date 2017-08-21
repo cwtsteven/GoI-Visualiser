@@ -16,16 +16,15 @@ class Promo extends Expo {
 
 	rewrite(token, nextLink) {
 		if (token.rewriteFlag == RewriteFlag.F_PROMO) {
+			token.rewriteFlag = RewriteFlag.EMPTY;
 			var prev = this.graph.findNodeByKey(this.findLinksInto(null)[0].from);
 
 			if (prev instanceof Der) {
-				token.rewriteFlag = RewriteFlag.EMPTY;
 				var oldGroup = this.group;
 				oldGroup.moveOut(); // this.group is a box-wrapper
 				oldGroup.deleteAndPreserveLink();
 				var newNextLink = prev.findLinksInto(null)[0];
 				prev.deleteAndPreserveInLink(); // preserve inLink
-				
 				token.rewrite = true;
 				return newNextLink;
 			}
@@ -42,13 +41,13 @@ class Promo extends Expo {
 						prev.findLinksOutOf(null)[0].changeTo(newBoxWrapper.prin.key, prev.findLinksOutOf(null)[0].toPort);
 						link.changeTo(this.key, "s");
 					}
-					token.rewrite = true;
-					return nextLink;	
+					token.rewriteFlag = RewriteFlag.F_PROMO;
 				}
 			}
+			token.rewrite = true;
+			return nextLink;
 		}
 		
-		token.rewriteFlag = RewriteFlag.EMPTY;
 		token.rewrite = false;
 		return nextLink;
 	}

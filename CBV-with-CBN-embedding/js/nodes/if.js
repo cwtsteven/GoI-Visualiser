@@ -38,10 +38,10 @@ class If extends Node {
 					otherLink.changeFrom(weak.key, "n");
 					this.delete();
 					left.delete();
-
-					token.rewrite = true;
-					return nextLink;
 				}
+
+				token.rewrite = true;
+				return nextLink;
 			}
 		}
 		token.rewriteFlag = RewriteFlag.EMPTY;
