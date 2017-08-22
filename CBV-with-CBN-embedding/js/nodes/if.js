@@ -26,27 +26,27 @@ class If extends Node {
 	}
 
 	rewrite(token, nextLink) {
-		if (nextLink.from == this.key) {
-			if (token.rewriteFlag == RewriteFlag.F_IF) {
-				token.rewriteFlag == RewriteFlag.EMPTY;
-				var left = this.graph.findNodeByKey(this.findLinksOutOf("w")[0].to);
-				if (left instanceof Const) {
-					var downLink = this.findLinksInto(null)[0];
-					var otherLink = this.findLinksOutOf(nextLink.fromPort == "n"?"e":"n")[0];
-					nextLink.changeFrom(downLink.from, downLink.fromPort);
-					var weak = new Weak(this.graph.findNodeByKey(otherLink.to).name).addToGroup(this.group);
-					otherLink.changeFrom(weak.key, "n");
-					this.delete();
-					left.delete();
-				}
-
-				token.rewrite = true;
-				return nextLink;
+		if (token.rewriteFlag == RewriteFlag.F_IF && nextLink.from == this.key) {
+			token.rewriteFlag = RewriteFlag.EMPTY;
+			var left = this.graph.findNodeByKey(this.findLinksOutOf("w")[0].to);
+			if (left instanceof Const) {
+				var downLink = this.findLinksInto(null)[0];
+				var otherLink = this.findLinksOutOf(nextLink.fromPort == "n"?"e":"n")[0];
+				nextLink.changeFrom(downLink.from, downLink.fromPort);
+				var weak = new Weak(this.graph.findNodeByKey(otherLink.to).name).addToGroup(this.group);
+				otherLink.changeFrom(weak.key, "n");
+				this.delete();
+				left.delete();
 			}
+
+			token.rewrite = true;
+			return nextLink;
 		}
-		token.rewriteFlag = RewriteFlag.EMPTY;
-		token.rewrite = false;
-		return nextLink;
+		
+		else if (token.rewriteFlag == RewriteFlag.EMPTY) {
+			token.rewrite = false;
+			return nextLink;
+		}
 	}
 
 	copy() {

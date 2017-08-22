@@ -30,28 +30,29 @@ class BinOp extends Node {
 	}
 
 	rewrite(token, nextLink) {
-		if (nextLink.to == this.key) {
-			if (token.rewriteFlag == RewriteFlag.F_OP) {
-				token.rewriteFlag = RewriteFlag.EMPTY;
+		if (token.rewriteFlag == RewriteFlag.F_OP && nextLink.to == this.key) {
+			token.rewriteFlag = RewriteFlag.EMPTY;
 
-				var left = this.graph.findNodeByKey(this.findLinksOutOf("w")[0].to);
-				var right = this.graph.findNodeByKey(this.findLinksOutOf("e")[0].to);
+			var left = this.graph.findNodeByKey(this.findLinksOutOf("w")[0].to);
+			var right = this.graph.findNodeByKey(this.findLinksOutOf("e")[0].to);
 
-				if (left instanceof Const && right instanceof Const) {
-					var newConst = new Const(token.dataStack.last()).addToGroup(this.group);
-					nextLink.changeTo(newConst.key, nextLink.toPort);
-					
-					left.delete();
-					right.delete();
-					this.delete();
-				}
+			if (left instanceof Const && right instanceof Const) {
+				var newConst = new Const(token.dataStack.last()).addToGroup(this.group);
+				nextLink.changeTo(newConst.key, nextLink.toPort);
 				
-				token.rewrite = true;
-				return nextLink;
+				left.delete();
+				right.delete();
+				this.delete();
 			}
+			
+			token.rewrite = true;
+			return nextLink;
 		}
-		token.rewrite = false;
-		return nextLink;
+
+		else if (token.rewriteFlag == RewriteFlag.EMPTY) {
+			token.rewrite = false;
+			return nextLink;
+		}
 	}
 
 	binOpApply(type, v1, v2) {

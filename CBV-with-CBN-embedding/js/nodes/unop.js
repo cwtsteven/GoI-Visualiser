@@ -22,21 +22,21 @@ class UnOp extends Node {
 	}
 
 	rewrite(token, nextLink) {
-		if (nextLink.to == this.key) {
+		if (token.rewriteFlag == RewriteFlag.F_OP && nextLink.to == this.key) {
+			token.rewriteFlag = RewriteFlag.EMPTY;
+			var newConst = new Const(token.dataStack.last()).addToGroup(this.group);
+			nextLink.changeTo(newConst.key, nextLink.toPort);
+			this.graph.findNodeByKey(this.findLinksOutOf(null)[0].to).delete();
+			this.delete();
 
-			if (token.rewriteFlag == RewriteFlag.F_OP) {
-				token.rewriteFlag = RewriteFlag.EMPTY;
-				var newConst = new Const(token.dataStack.last()).addToGroup(this.group);
-				nextLink.changeTo(newConst.key, nextLink.toPort);
-				this.graph.findNodeByKey(this.findLinksOutOf(null)[0].to).delete();
-				this.delete();
-
-				token.rewrite = true;
-				return nextLink;
-			}
+			token.rewrite = true;
+			return nextLink;
 		}
-		token.rewrite = false;
-		return nextLink;
+		
+		else if (token.rewriteFlag == RewriteFlag.EMPTY) {
+			token.rewrite = false;
+			return nextLink;
+		}
 	}
 
 	unOpApply(type, v1) {
