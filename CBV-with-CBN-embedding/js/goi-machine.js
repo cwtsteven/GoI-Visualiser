@@ -115,7 +115,7 @@ class GoIMachine {
 			new Link(ifnode.key, t1.prin.key, "n", "s").addToGroup(group);
 			new Link(ifnode.key, t2.prin.key, "e", "s").addToGroup(group);
 
-			return new Term(ifnode, Term.joinAuxs(cond.auxs, Term.joinAuxs(t1.auxs, t2.auxs, group), group));
+			return new Term(ifnode, Term.joinAuxs(Term.joinAuxs(t1.auxs, t2.auxs, group), cond.auxs, group));
 		}
 
 		else if (ast instanceof Recursion) {

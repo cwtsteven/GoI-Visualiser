@@ -43,8 +43,8 @@ class Term extends Group {
 						outLink.changeFrom(con.key, outLink.fromPort);
 					}
 
-					new Link(leftAux.key, con.key, "n", "s").addToGroup(group);
 					new Link(rightAux.key, con.key, "n", "s").addToGroup(group);
+					new Link(leftAux.key, con.key, "n", "s").addToGroup(group);
 					newAuxs.splice(newAuxs.indexOf(leftAux), 1);
 					newAuxs.splice(newAuxs.indexOf(rightAux), 1);
 					newAuxs.push(con);
