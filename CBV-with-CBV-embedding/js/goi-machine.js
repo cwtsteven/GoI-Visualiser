@@ -92,14 +92,10 @@ class GoIMachine {
 
 			binop.subType = ast.type;
 			var left = this.toGraph(ast.v1, group);
-			var derL = new Der(left.prin.name).addToGroup(group);
-			new Link(derL.key, left.prin.key, "n", "s").addToGroup(group);
 			var right = this.toGraph(ast.v2, group);
-			var derR = new Der(right.prin.name).addToGroup(group);
-			new Link(derR.key, right.prin.key, "n", "s").addToGroup(group);
 
-			new Link(binop.key, derL.key, "w", "s").addToGroup(group);
-			new Link(binop.key, derR.key, "e", "s").addToGroup(group);
+			new Link(binop.key, left.prin.key, "w", "s").addToGroup(group);
+			new Link(binop.key, right.prin.key, "e", "s").addToGroup(group);
 
 			return new Term(binop, Term.joinAuxs(left.auxs, right.auxs, group));
 		}
@@ -108,10 +104,8 @@ class GoIMachine {
 			var unop = new UnOp(ast.name).addToGroup(group);
 			unop.subType = ast.type;
 			var box = this.toGraph(ast.v1, group);
-			var der = new Der(box.prin.name).addToGroup(group);
-			new Link(der.key, box.prin.key, "n", "s").addToGroup(group);
 
-			new Link(unop.key, der.key, "n", "s").addToGroup(group);
+			new Link(unop.key, box.prin.key, "n", "s").addToGroup(group);
 
 			return new Term(unop, box.auxs);
 		}
@@ -119,12 +113,10 @@ class GoIMachine {
 		else if (ast instanceof IfThenElse) {
 			var ifnode = new If().addToGroup(group);
 			var cond = this.toGraph(ast.cond, group);
-			var der = new Der(cond.prin.name).addToGroup(group);
-			new Link(der.key, cond.prin.key, "n", "s").addToGroup(group);
 			var t1 = this.toGraph(ast.t1, group);
 			var t2 = this.toGraph(ast.t2, group);
 
-			new Link(ifnode.key, der.key, "w", "s").addToGroup(group);
+			new Link(ifnode.key, cond.prin.key, "w", "s").addToGroup(group);
 			new Link(ifnode.key, t1.prin.key, "n", "s").addToGroup(group);
 			new Link(ifnode.key, t2.prin.key, "e", "s").addToGroup(group);
 
@@ -215,16 +207,8 @@ class GoIMachine {
 				node = this.graph.findNodeByKey(target);
 				var nextLink = node.rewrite(this.token, this.token.link);
 				if (!this.token.rewrite) {
-					var nextNode = this.graph.findNodeByKey(this.token.forward ? this.token.link.to : this.token.link.from);
-					nextLink = nextNode.rewrite(this.token, nextLink);
-					if (!this.token.rewrite) {
-						this.token.transited = false;
-						this.pass(flag, dataStack, boxStack);
-					}
-					else {
-						this.token.setLink(nextLink);
-						this.printHistory(flag, dataStack, boxStack);
-					}
+					this.token.transited = false;
+					this.pass(flag, dataStack, boxStack);
 				}
 				else {
 					this.token.setLink(nextLink);

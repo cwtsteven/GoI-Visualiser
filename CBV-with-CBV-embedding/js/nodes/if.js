@@ -30,14 +30,14 @@ class If extends Node {
 			token.rewriteFlag = RewriteFlag.EMPTY;
 			
 			var left = this.graph.findNodeByKey(this.findLinksOutOf("w")[0].to);
-			if (left instanceof Const) {
+			if (left instanceof Promo) {
 				var downLink = this.findLinksInto(null)[0];
 				var otherLink = this.findLinksOutOf(nextLink.fromPort == "n"?"e":"n")[0];
 				nextLink.changeFrom(downLink.from, downLink.fromPort);
 				var weak = new Weak(this.graph.findNodeByKey(otherLink.to).name).addToGroup(this.group);
 				otherLink.changeFrom(weak.key, "n");
 				this.delete();
-				left.delete();
+				left.group.delete();
 			}
 
 			token.rewrite = true;
