@@ -124,8 +124,6 @@ class Parser {
   //        | TRUE
   //        | FALSE
   //        | NOT term
-  //        | LSPAREN int RSPAREN
-  //        | LCPAREN int RCPAREN
   atom(ctx) {
     if (this.lexer.skip(Token.LPAREN)) {
       const term = this.term(ctx);
