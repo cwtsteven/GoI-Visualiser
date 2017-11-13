@@ -124,14 +124,13 @@ class GoIMachine {
 		}
 
 		else if (ast instanceof Recursion) {
-			var p1 = ast.p1
-			var p2 = ast.p2;
+			var p1 = ast.param;
 			// recur term
 			var wrapper = BoxWrapper.create().addToGroup(group);
 			wrapper.prin.delete();
 			var recur = new Recur().addToGroup(wrapper);
 			wrapper.prin = recur;
-			var box = this.toGraph(new Abstraction(p2, ast.body), wrapper.box);
+			var box = this.toGraph(ast.body, wrapper.box);
 			wrapper.auxs = Array.from(box.auxs);
 			recur.box = box;
 
