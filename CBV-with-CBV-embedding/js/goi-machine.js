@@ -158,7 +158,7 @@ class GoIMachine {
 	}
 
 	deleteVarNode(group) {
-		for (let node of group.nodes) {
+		for (let node of Array.from(group.nodes)) {
 			if (node instanceof Group)
 				this.deleteVarNode(node);
 			else if (node instanceof Var) 
