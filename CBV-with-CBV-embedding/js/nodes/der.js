@@ -1,29 +1,48 @@
-class Der extends Expo {
+define('nodes/der', function(require) {
 
-	constructor(name) {
-		super(null, "D", name);
-	}
+	var Node = require('node');
+	var Expo = require('nodes/expo');
 
-	copy() {
-		var der = new Der(this.name);
-		der.text = this.text;
-		return der;
-	}
-}
+	class Der extends Expo {
 
-class Var extends Der {
-
-	deleteAndPreserveOutLink() { 
-		var inLink = this.findLinksInto(null)[0];
-		var outLink = this.findLinksOutOf(null)[0];
-		var inNode = this.graph.findNodeByKey(inLink.from);
-		if (inLink != null && outLink != null) {
-			if (this.graph.findNodeByKey(outLink.to) instanceof Abs && (inNode instanceof Expo))
-				outLink.changeFrom(inLink.from, "nw");
-			else
-				outLink.changeFrom(inLink.from, inLink.fromPort);
+		constructor(name) {
+			super(null, "D", name);
 		}
-		super.delete();
+
+		copy() {
+			var der = new Der(this.name);
+			der.text = this.text;
+			return der;
+		}
 	}
 
-}
+	return Der;
+});
+
+
+define('nodes/var', function(require) {
+
+	var Node = require('node');
+	var Der = require('nodes/der');
+	var Expo = require('nodes/expo');
+	var Abs = require('nodes/abs');
+
+	class Var extends Der {
+
+		deleteAndPreserveOutLink() { 
+			var inLink = this.findLinksInto(null)[0];
+			var outLink = this.findLinksOutOf(null)[0];
+			var inNode = this.graph.findNodeByKey(inLink.from);
+			if (inLink != null && outLink != null) {
+				if (this.graph.findNodeByKey(outLink.to) instanceof Abs && (inNode instanceof Expo))
+					outLink.changeFrom(inLink.from, "nw");
+				else
+					outLink.changeFrom(inLink.from, inLink.fromPort);
+			}
+			super.delete();
+		}
+
+	}
+
+	return Var;
+});

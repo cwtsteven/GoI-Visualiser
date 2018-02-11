@@ -11,7 +11,9 @@ var finished = false;
 var isDraw = true;
 
 require(["jquery", "renderer", "goi-machine"],
-	function ($, renderer, machine) {
+	function ($, renderer, Machine) {
+		
+		var machine = new Machine();
 
 		function clearGraph(callback) {
 			renderer.render('digraph G {\n\t\n}');
@@ -125,8 +127,8 @@ require(["jquery", "renderer", "goi-machine"],
 
 		renderer.init("#graph");
 		//renderer.init({element: "#graph", zoom: {extent: [0.1, 10]}})
-		$("#ta-program").val(fact_prog);
-  		$("#btn-make-graph").click();
+		$("#ta-program").val(fact_prog); 
+  		$("#btn-make-graph").click(); 
 	}
 );
 

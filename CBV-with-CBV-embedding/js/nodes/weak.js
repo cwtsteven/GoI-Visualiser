@@ -1,11 +1,19 @@
-class Weak extends Expo {
+define(function(require) {
 
-	constructor() {
-		super(null, 'C0');
+	var Node = require('node');
+	var Expo = require('nodes/expo');
+
+	class Weak extends Expo {
+
+		constructor() {
+			super(null, 'C0');
+		}
+
+		copy() {
+			return new Weak();
+		}
+		
 	}
 
-	copy() {
-		return new Weak();
-	}
-	
-}
+	return Weak;
+});

@@ -223,18 +223,19 @@ class GoIMachine {
 
 define('goi-machine', 
 	function(require) {
-		require('gc');
-		require('node');
-		require('group');
-		require('graph');
-		require('link');
-		require('term');
-		require('token');
-		require('op');
 		require('parser/ast');
 		require('parser/token');
 		require('parser/lexer');
 		require('parser/parser');
+
+		require('op');
+		require('token');
+		require('link');
+		require('node');
+		require('group');
+		require('term');
+		require('graph');
+		
 		require('nodes/expo');
 		require('nodes/abs');
 		require('nodes/app');
@@ -249,6 +250,8 @@ define('goi-machine',
 		require('nodes/start');
 		require('nodes/unop');
 		require('nodes/weak');
+
+		require('gc');
 		return new GoIMachine();	
 	}
 );

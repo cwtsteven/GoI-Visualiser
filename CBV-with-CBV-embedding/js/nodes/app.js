@@ -1,26 +1,35 @@
-class App extends Node {
+define(function(require) {
 
-	constructor() {
-		super(null, "@");
-	}
+	var Node = require('node');
+	var CompData = require('token').CompData;
+	var RewriteFlag = require('token').RewriteFlag;
 	
-	transition(token, link) {
-		if (link.to == this.key) {
-			token.dataStack.push(CompData.PROMPT);
-			return this.findLinksOutOf("e")[0];
+	class App extends Node {
 
-			//token.dataStack.push(CompData.R);
-			//return this.findLinksOutOf("w")[0];
+		constructor() {
+			super(null, "@");
 		}
-		else if (link.from == this.key && link.fromPort == "e") {
-			token.dataStack.pop();
-			token.dataStack.push(CompData.R);
-			token.forward = true;
-			return this.findLinksOutOf("w")[0];
+		
+		transition(token, link) {
+			if (link.to == this.key) {
+				token.dataStack.push(CompData.PROMPT);
+				return this.findLinksOutOf("e")[0];
+
+				//token.dataStack.push(CompData.R);
+				//return this.findLinksOutOf("w")[0];
+			}
+			else if (link.from == this.key && link.fromPort == "e") {
+				token.dataStack.pop();
+				token.dataStack.push(CompData.R);
+				token.forward = true;
+				return this.findLinksOutOf("w")[0];
+			}
+		}
+
+		copy() {
+			return new App();
 		}
 	}
 
-	copy() {
-		return new App();
-	}
-}
+	return App;
+});
