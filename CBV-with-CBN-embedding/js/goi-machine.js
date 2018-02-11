@@ -226,6 +226,10 @@ define('goi-machine', ['gc', 'graph', 'node', 'group', 'link', 'term', 'token', 
 					, 'nodes/der', 'nodes/if', 'nodes/pax', 'nodes/promo'
 					, 'nodes/recur', 'nodes/start', 'nodes/unop', 'nodes/weak'],
 	function() {
+		require(['gc', 'graph', 'node', 'group', 'link', 'term', 'token', 'op', 'parser/ast', 'parser/token', 'parser/lexer', 'parser/parser'
+					, 'nodes/expo', 'nodes/abs', 'nodes/app', 'nodes/binop', 'nodes/const', 'nodes/contract'
+					, 'nodes/der', 'nodes/if', 'nodes/pax', 'nodes/promo'
+					, 'nodes/recur', 'nodes/start', 'nodes/unop', 'nodes/weak']);
 		return new GoIMachine();	
 	}
 );
