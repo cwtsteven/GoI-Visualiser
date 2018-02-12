@@ -1,6 +1,5 @@
 define('nodes/der', function(require) {
 
-	var Node = require('node');
 	var Expo = require('nodes/expo');
 
 	class Der extends Expo {
@@ -22,7 +21,6 @@ define('nodes/der', function(require) {
 
 define('nodes/var', function(require) {
 
-	var Node = require('node');
 	var Der = require('nodes/der');
 	var Expo = require('nodes/expo');
 	var Abs = require('nodes/abs');

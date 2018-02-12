@@ -1,6 +1,5 @@
 define(function(require) {
 
-	var Node = require('node');
 	var Expo = require('nodes/expo');
 
 	class Pax extends Expo {
