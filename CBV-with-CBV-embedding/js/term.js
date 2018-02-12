@@ -70,6 +70,7 @@ define('term', function(require) {
 
 define('box-wrapper', function(require) {
 
+	var Link = require('link');
 	var Term = require('term');
 	var Box = require('box');
 	var Promo = require('nodes/promo');

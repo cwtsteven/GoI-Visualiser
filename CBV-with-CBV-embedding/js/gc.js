@@ -1,5 +1,6 @@
 define(function(require) {
 
+	var Group = require('group');
 	var Contract = require('nodes/contract');
 	var Promo = require('nodes/promo');
 	var Recur = require('nodes/recur');
