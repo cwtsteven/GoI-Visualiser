@@ -151,6 +151,7 @@ define('box-wrapper', function(require) {
 				newLink.reverse = link.reverse;
 			}
 			for (let link of this.links) {
+				//console.log(link.to);
 				var newLink = new Link(map.get(link.from), map.get(link.to), link.fromPort, link.toPort).addToGroup(newBoxWrapper);
 				newLink.reverse = link.reverse;
 			}

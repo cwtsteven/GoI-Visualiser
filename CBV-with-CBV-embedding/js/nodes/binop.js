@@ -50,16 +50,12 @@ define(function(require) {
 				if (left instanceof Promo && right instanceof Promo) {
 					var wrapper = BoxWrapper.create().addToGroup(this.group);
 					var newConst = new Const(token.dataStack.last()).addToGroup(wrapper.box);
-					var newLink = new Link(wrapper.prin.key, newConst.key, "n", "s").addToGroup(wrapper);
+					new Link(wrapper.prin.key, newConst.key, "n", "s").addToGroup(wrapper);
 					nextLink.changeTo(wrapper.prin.key, "s");
 					
 					left.group.delete();
 					right.group.delete();
 					this.delete();
-
-					token.rewriteFlag = RewriteFlag.F_PROMO;
-					token.rewrite = true;
-					return newLink;
 				}
 
 				token.rewrite = true;

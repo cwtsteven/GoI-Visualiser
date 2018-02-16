@@ -11,7 +11,6 @@ define(function(require) {
 
 		constructor() {
 			super(null, "μ");
-			this.box = null;
 		}
 
 		transition(token, link) {
@@ -26,10 +25,13 @@ define(function(require) {
 				token.rewriteFlag = RewriteFlag.EMPTY;
 
 				var wrapper = this.group.copy().addToGroup(this.group);
-				
+				Term.joinAuxs(this.group.auxs, wrapper.auxs, wrapper.group);	
+
 				var oldGroup = this.group;
 				var oldBox = this.group.box;
+				
 				this.group.moveOut();
+
 				var leftLink = this.findLinksInto("w")[0];
 				leftLink.changeTo(wrapper.prin.key, "s");
 				leftLink.fromPort = "n";
@@ -37,10 +39,8 @@ define(function(require) {
 				var inLink = this.findLinksInto("s")[0];
 				var outLink = this.findLinksOutOf("e")[0];
 				outLink.changeFrom(inLink.from, inLink.fromPort);
-
-				Term.joinAuxs(wrapper.auxs, oldBox.auxs, wrapper.group);
 				
-				oldGroup.delete();
+				oldGroup.deleteAndPreserveLink();
 
 				token.rewrite = true;
 				return nextLink;
